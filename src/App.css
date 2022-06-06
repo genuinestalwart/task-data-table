@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Salsa&display=swap");
+
+body {
+	font-family: "Nunito", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Salsa", cursive;
+}
+.table :where(thead, tfoot) :where(th, td),
+.table :where(tbody th, tbody td) {
+	@apply bg-transparent;
+}
