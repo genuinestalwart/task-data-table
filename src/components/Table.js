@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Row from "./Row";
 
-const Table = () => {
+const Table = ({ currentPage, setPages }) => {
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
 		fetch("./mock_data.json")
 			.then((res) => res.json())
-			.then((data) => setUsers(data));
-	}, []);
+			.then((data) => {
+				console.log(data);
+				setUsers(data);
+				setPages(Math.ceil(data.length / 10));
+			});
+	}, [setPages]);
 
 	return (
-		<div className="px-8 pb-8">
-			<div className="h-[calc(100vh_-_10rem)] overflow-x-auto">
+		<section className="my-12">
+			<div className="overflow-x-auto">
 				<table className="h-full table table-normal w-full">
 					<thead>
 						<tr className="bg-secondary-focus text-accent text-center">
@@ -29,13 +33,15 @@ const Table = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{users.map((user) => (
-							<Row key={users.indexOf(user)} user={user}></Row>
-						))}
+						{users
+							.slice(currentPage * 10, currentPage * 10 + 10)
+							.map((user) => (
+								<Row key={users.indexOf(user)} user={user}></Row>
+							))}
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</section>
 	);
 };
 
