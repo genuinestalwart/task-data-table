@@ -1,10 +1,13 @@
 import { useState } from "react";
 import "./App.css";
+import Filter from "./components/Filter";
 import PageNav from "./components/PageNav";
 import Table from "./components/Table";
 
 function App() {
 	const [pages, setPages] = useState(0);
+	const [query, setQuery] = useState("");
+	const [search, setSearch] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
 
 	return (
@@ -16,7 +19,13 @@ function App() {
 			</header>
 
 			<main>
-				<Table currentPage={currentPage} setPages={setPages}></Table>
+				<Filter setQuery={setQuery} setSearch={setSearch}></Filter>
+				<Table
+					currentPage={currentPage}
+					query={query}
+					search={search}
+					setPages={setPages}
+				></Table>
 				<PageNav
 					currentPage={currentPage}
 					pages={pages}

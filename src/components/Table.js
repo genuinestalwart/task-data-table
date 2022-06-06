@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Row from "./Row";
 
-const Table = ({ currentPage, setPages }) => {
+const Table = ({ currentPage, query, search, setPages }) => {
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
-		fetch("./mock_data.json")
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data);
-				setUsers(data);
-				setPages(Math.ceil(data.length / 10));
-			});
-	}, [setPages]);
+		if (search) {
+			fetch("./mock_data.json")
+				.then((res) => res.json())
+				.then((data) => {
+					const filtered = data.filter((user) =>
+						Object.values(user).find(
+							(el) =>
+								typeof el === "string" &&
+								el.toLowerCase().includes(query.toLowerCase())
+						)
+					);
+					setUsers(filtered);
+					setPages(Math.ceil(filtered.length / 10));
+				});
+		} else {
+			fetch("./mock_data.json")
+				.then((res) => res.json())
+				.then((data) => {
+					setUsers(data);
+					setPages(Math.ceil(data.length / 10));
+				});
+		}
+	}, [query, search, setPages]);
 
 	return (
-		<section className="my-12">
+		<section className="my-12 px-12">
 			<div className="overflow-x-auto">
 				<table className="h-full table table-normal w-full">
 					<thead>
